@@ -1,0 +1,74 @@
+/* -----------------------------------------------------------------------------
+ * CARD
+ */
+
+.c-card {
+    &__media {
+        @include o-ratio(400/600);
+        overflow: hidden;
+    }
+
+    &__img {
+        @include o-ratio-content;
+        object-fit: cover;
+        transition: all .3s; // vuelta
+        a & {
+            &:hover {
+                transition: all .3s; // ida
+                transform: scale(1.2); // escalar 1 + mitad de la foto
+            }
+        }
+    }
+
+    &__box {
+        background-color:#fff;
+        padding: 16px;
+    }
+
+    &__title {
+        margin-bottom: 8px;
+        font-family: $f-font-family-secondary;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    &__desc {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    &__info {
+        @include reset-list;
+        margin-top: 16px;
+        &-item {
+            color: $f-color-primary;
+            span {
+                font-weight: 700;
+                color: initial;
+
+            }
+        }
+    }
+
+    &__users {
+      display:flex;
+      align-items:center;
+      //justify-content:space-between;
+      margin-top:16px;
+
+
+    }
+
+    &__comments {
+      @include text-ellipsis;
+      width: 50%;
+      padding-right: 8px;
+    }
+
+    &__user {
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+      padding-left: 8px;
+  }
+}

@@ -1,1 +1,1 @@
-# laravel-blog
+# Hiking-in-Mallorca

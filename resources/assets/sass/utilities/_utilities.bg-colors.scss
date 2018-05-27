@@ -1,0 +1,9 @@
+/* -----------------------------------------------------------------------------
+ * BG COLORS
+ */
+
+    @each $_bg-color-name, $_bg-color-value in $f-colors-neutral {
+        .u-bg-color-#{$_bg-color-name} {
+          background-color: $_bg-color-value !important;
+        }
+      }
