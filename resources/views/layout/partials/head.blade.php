@@ -3,7 +3,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Mallorca Sports Routes</title>
+<title>Fitness blog</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Montserrat:300,400,600,700" rel="stylesheet">

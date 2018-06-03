@@ -4,8 +4,7 @@
 
 .c-header {
   $this:&;
-  background-color: #fff;
-  box-shadow: 0 0 16px rgba(0, 0, 0, .50);
+  background-color: $f-color-neutral-shade-200;
   z-index: 90;
   position: relative;
 
@@ -17,7 +16,7 @@
     top: 0;
     left: 0;
     z-index: 2;
-    background-color: #fff;
+    background-color: $f-color-neutral-shade-200;
     @include breakpoint(l) {
       display: none;
 
@@ -33,22 +32,24 @@
   }
 
   &__logo {
+    font-family: 'Lato';
+    text-transform: uppercase;
+    font-size:25px;
+    font-weight: bold;
+    color: red;
     z-index: 3;
     position: relative;
-    img {
-      display: block;
-    }
   }
 
   &__menu {
     @include breakpoint(l down) {
       position: absolute;
-      background-color: #fff;
+      background-color: $f-color-neutral-shade-200;
       top: 100%;
       left: 0;
       width: 100%;
       padding: 16px;
-      border-top: 1px solid #eee;
+      border-top: 1px solid $f-color-neutral-shade-400;
       transform: translateY(-200%);
       opacity: 0;
       transition: all .6s;
@@ -78,7 +79,8 @@
 
   &__item {
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 900;
     & + & {
       @include breakpoint(l down) {
         padding-top: 8px;

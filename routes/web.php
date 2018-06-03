@@ -12,24 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    $posts = App\Post::latest('published_at')->get();
+
+    return view('index')->with('posts',$posts);
 });
 
-//Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/route-search', function () {
-    return view('route-search');
+Route::get('admin', function(){
+    return view('admin.dashboard');
 });
 
-Route::get('/route-detail', function () {
-    return view('route-detail');
-});
-//Route::get('routes-search', 'RoutesController@index')->name('routes.index');
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/gibson', function () {
-    return view('gibson');
-});
+Route::auth();

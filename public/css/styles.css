@@ -226,7 +226,7 @@ html {
 .o-grid-auto {
   display: grid;
   grid-gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(calc(284px + 5vw), 1fr));
+  grid-template-columns: 1fr;
 }
 
 /* -----------------------------------------------------------------------------
@@ -455,9 +455,7 @@ a .c-card__img:hover {
  */
 
 .c-header {
-  background-color: #fff;
-  -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  background-color: #EDEFF0;
   z-index: 90;
   position: relative;
 }
@@ -470,7 +468,7 @@ a .c-card__img:hover {
   top: 0;
   left: 0;
   z-index: 2;
-  background-color: #fff;
+  background-color: #EDEFF0;
 }
 
 @media screen and (min-width: 75em) {
@@ -491,23 +489,24 @@ a .c-card__img:hover {
 }
 
 .c-header__logo {
+  font-family: 'Lato';
+  text-transform: uppercase;
+  font-size: 25px;
+  font-weight: bold;
+  color: red;
   z-index: 3;
   position: relative;
-}
-
-.c-header__logo img {
-  display: block;
 }
 
 @media screen and (max-width: 74.9375em) {
   .c-header__menu {
     position: absolute;
-    background-color: #fff;
+    background-color: #EDEFF0;
     top: 100%;
     left: 0;
     width: 100%;
     padding: 16px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #D6DADC;
     -webkit-transform: translateY(-200%);
             transform: translateY(-200%);
     opacity: 0;
@@ -553,7 +552,8 @@ a .c-card__img:hover {
 
 .c-header__item {
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 900;
 }
 
 @media screen and (max-width: 74.9375em) {
@@ -854,6 +854,79 @@ a .c-card__img:hover {
   .c-banner-intro__image {
     height: calc(100vh - 76px);
   }
+}
+
+/* -----------------------------------------------------------------------------
+ * POST
+ */
+
+.c-post__header {
+  padding-top: 20px;
+  padding-bottom: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.c-post__category {
+  font-size: 25px;
+  font-weight: 900;
+  color: red;
+}
+
+.c-post__date {
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.c-post__title {
+  font-size: 30px;
+  font-weight: 900;
+  padding-bottom: 10px;
+  border-bottom: 1px solid grey;
+  width: 100%;
+}
+
+.c-post__subtitle {
+  font-size: 25px;
+  font-weight: 500;
+  color: grey;
+  padding-bottom: 10px;
+  padding-top: 20px;
+}
+
+.c-post__footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  padding-top: 50px;
+}
+
+.c-post__link {
+  font-size: 25px;
+  color: red;
+  margin-right: 32px;
+}
+
+.c-post__tags {
+  font-size: 20px;
+  margin-left: auto;
+}
+
+/* -----------------------------------------------------------------------------
+ * CONTAINER BLOG
+ */
+
+.c-container-blog {
+  -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  padding: 40px;
 }
 
 /* -----------------------------------------------------------------------------
