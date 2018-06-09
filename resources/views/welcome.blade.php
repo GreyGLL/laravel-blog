@@ -1,94 +1,40 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
+@extends('layout.mainlayout') @section('content') @include('layout.partials.header')
+<div class="u-bg-color-shade-200 u-space-between-sections-pd">
+    <div class="c-container-blog o-wrapper o-wrapper--l">
+        <div class="o-grid-auto">
+            @for ($i = 0; $i < 5; $i++)
+            @foreach($posts as $post)
+            <article class="c-post">
+                <picture>
+                    <img src="https://source.unsplash.com/random/1200x60{{$i}}" alt="" class="c-post__img">
+                </picture>
+                <div class="c-post__content">
+                    <header class="c-post__header">
+                        <div class="c-post__category">{{$post->category->name}}</div>
+                        <div class="c-post__date">{{$post->published_at->format('M d')}}</div>
+                        <h1 class="c-post__title">{{$post->title}}</h1>
+                        <div class="c-post__subtitle">
+                            {{$post->subtitle}}
+                        </div>
+                    </header>
+                    <p class="c-post__text">{{$post->extract}}</p>
+                    <footer class="c-post__footer">
+                    <a href="blog/{{$post->id}}" class="c-post__link">Leer más</a>
+                        <div class="c-post__tags">
+                            @foreach($post->tags as $tag)
+                            <a href="#">#{{$tag->name}}</a>
+                            @endforeach
+                            <a href="#">Diversión</a>
+                            <a href="#">Salud</a>
+                            <a href="#">Fitness</a>
+                        </div>
+                    </footer>
                 </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+            </article>
+            @endforeach
+            @endfor
         </div>
-    </body>
-</html>
+    </div>
+</div>
+
+@endsection

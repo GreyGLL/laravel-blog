@@ -1,6 +1,8 @@
 <?php
 
 use App\Post;
+use App\Category;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class PostsTableSeeder extends Seeder
@@ -16,13 +18,13 @@ class PostsTableSeeder extends Seeder
         Category::truncate();
         $category = new Category;
         $category->name = "Fitness";
-        $cateogry->save();
+        $category->save();
 
 
         $post = new Post;
         $post->title ="Comenzar a entrenar Crossfit";
         $post->subtitle ="Una guía para todo aquel que esté pensando en adentrarse en la práctica de esta modalidad";
-        $post->extract = "El Crossfit es un deporte extremadamente duro, y aunque se ha publicitado como una nueva opción abierta a cualquier persona que quiera probar, lo cierto es que debes contar con una buena condición fisica de partida que te permita afrontar los restos sin riesgo de lesión."
+        $post->extract = "El Crossfit es un deporte extremadamente duro, y aunque se ha publicitado como una nueva opción abierta a cualquier persona que quiera probar, lo cierto es que debes contar con una buena condición fisica de partida que te permita afrontar los restos sin riesgo de lesión.";
         $post->content = "¿Cómo saber si estamos preparados o presentamos buena condición?
         Simplemente colócate un reloj para controlar el tiempo y sal a correr. Por norma, se considera que presentas buena condición, o por lo menos lo mínimo que se despacha, que seas capaz de aguantar unos 30 minutos a una intensidad moderada, pudiendo tomar como referencia el hecho de ir corriendo y ser capaz de hablar con un compañero a la par.
         Digamos que ese nivel es el básico. Luego podemos ir subiendo peldaños. Si hacemos caso a un pulsómetro, en vez de tomar la “conversación” como elemento medidor, pues fijaremos nuestras pulsaciones para llevar un ritmo moderado a medio. En este caso, sin profundizar demasiado, una porcentaje entre el 65-75% de nuestra máxima capacidad sería idóneo para mantener durante esos 45-60 minutos.
