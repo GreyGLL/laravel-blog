@@ -2,6 +2,7 @@
 
 use App\Post;
 use App\Category;
+use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,7 @@ class PostsTableSeeder extends Seeder
     {
         Post::truncate();
         Category::truncate();
+        Tag::truncate();
         $category = new Category;
         $category->name = "Fitness";
         $category->save();
@@ -23,6 +25,7 @@ class PostsTableSeeder extends Seeder
 
         $post = new Post;
         $post->title ="Comenzar a entrenar Crossfit";
+        $post->url =str_slug("Comenzar a entrenar Crossfit");
         $post->subtitle ="Una guía para todo aquel que esté pensando en adentrarse en la práctica de esta modalidad";
         $post->extract = "El Crossfit es un deporte extremadamente duro, y aunque se ha publicitado como una nueva opción abierta a cualquier persona que quiera probar, lo cierto es que debes contar con una buena condición fisica de partida que te permita afrontar los restos sin riesgo de lesión.";
         $post->content = "¿Cómo saber si estamos preparados o presentamos buena condición?
@@ -40,5 +43,7 @@ class PostsTableSeeder extends Seeder
         $post->published_at = Carbon::now();
         $post->category_id = 1;
         $post->save();
+
+        $post->tags()->attach(Tag::create(['name' => 'etiqueta 1']));
     }
 }

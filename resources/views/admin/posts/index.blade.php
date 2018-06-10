@@ -19,9 +19,10 @@
 @stop
 
 @section('content')
-    <div class="card">
+    <div class="card card-primary">
         <div class="card-header">
         <h3 class="card-title">Listado de publicaciones</h3>
+        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Crear publicación</button>
         </div>
         <!-- /.card-header -->
         <div class="card-body">

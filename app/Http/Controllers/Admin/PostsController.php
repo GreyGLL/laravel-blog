@@ -18,15 +18,35 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('posts',$posts);
     }
 
-    public function create()
+    // public function create()
+    // {
+    //     $categories = Category::all();
+    //     $tags = Tag::all();
+
+    //     return view('admin.posts.create')->with('categories',$categories)->with('tags',$tags);
+    // }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, ['title' => 'required']);
+
+        $post = Post::create([
+            'title' => $request->title,
+            'url' => str_slug($request->title),
+        ]);
+
+        return redirect()->route('admin.posts.edit', $post);
+    }
+
+    public function edit(Post $post)
     {
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.create')->with('categories',$categories)->with('tags',$tags);
+        return view('admin.posts.edit')->with('categories',$categories)->with('tags',$tags)->with('post',$Post);
     }
 
-    public function store(Request $request)
+    public function update(Post $post, Request $request)
     {
         // validación
         $this->validate($request, [
@@ -37,8 +57,8 @@ class PostsController extends Controller
             'tags' => 'required'
         ]);
         // return Post::create($request->all());
-        $post = new Post;
         $post->title = $request->title;
+        $post->url = str_slug($request->title);
         $post->subtitle = $request->subtitle;
         $post->content = $request->content;
         $post->extract = $request->extract;
@@ -46,9 +66,9 @@ class PostsController extends Controller
         $post->category_id = $request->category_id;
         $post->save();
 
-        $post->tags()->attach($request->tags);
+        $post->tags()->sync($request->tags);
 
-        return back()->with('flash', 'Tu publicación ha sido creada');
+        return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicación ha sido guardada');
         // return $request->all();
     }
 }

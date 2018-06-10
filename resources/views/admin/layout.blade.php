@@ -9,7 +9,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>{{ config('app.name') }}</title>
+  <title>@yield('meta-title', config('app.name') . " | Blog")</title>
+  <meta name="description" content="@yield('meta-content', 'Kaizen Fitness Blog')">
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="/adminlte/plugins/font-awesome/css/font-awesome.min.css">
@@ -246,5 +247,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       });
     });
   </script>
+  @include('admin.posts.create')
 </body>
 </html>
