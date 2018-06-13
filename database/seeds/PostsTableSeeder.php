@@ -44,6 +44,6 @@ class PostsTableSeeder extends Seeder
         $post->category_id = 1;
         $post->save();
 
-        $post->tags()->attach(Tag::create(['name' => 'etiqueta 1']));
+        $post->tags()->attach(Tag::create(['name' => 'Deporte']));
     }
 }

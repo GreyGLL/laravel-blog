@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Post;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class ImageController extends Controller
+{
+    public function store(Post  $post)
+    {
+        $this->validate(request(), [
+            'image' => 'required|image|max:2048'
+        ]);
+
+        $image = request()->file('image')->store('public');
+
+        Image::create([
+            'url' => Storage::url($image),
+            'post_id' => $post->id
+        ]);
+    }
+
+    public function destroy(Image $image)
+    {
+        $image->delete();
+
+        $imagePath = str_replace('storage', 'public', $image->url);
+
+        Storage::delete($imagePath);
+
+        return back()->with('flash', 'Foto eliminada');
+    }
+}

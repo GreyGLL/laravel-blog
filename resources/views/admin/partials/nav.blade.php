@@ -26,7 +26,7 @@
         </ul>
       </li>
       <li class="nav-item">
-      <a href="#" data-toggle:"modal" data-target:"#myModal" class="nav-link">
+      <a href="{{ route('admin.posts.create') }} data-toggle:"modal" data-target:"#myModal" class="nav-link">
           <i class="nav-icon fa fa-th"></i>
           <p>
             Crear posts

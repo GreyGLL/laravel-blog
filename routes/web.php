@@ -12,7 +12,9 @@
 */
 
 Route::get('/', 'PagesController@home');
-Route::get('blog/{post}', 'PostsController@show');
+Route::get('blog/{post}', 'PostsController@show')->name('posts.show');
+Route::get('categories/{category}', 'CategoriesController@show')->name('categories.show');
+Route::get('tags/{tag}', 'TagsController@show')->name('tags.show');
 
 
 Route::group([
@@ -26,6 +28,9 @@ function(){
     Route::post('posts', 'PostsController@store')->name('admin.posts.store');
     Route::get('posts/{post}', 'PostsController@edit')->name('admin.posts.edit');
     Route::put('posts/{post}', 'PostsController@update')->name('admin.posts.update');
+    Route::post('posts/{post}/images', 'ImagesController@store')->name('admin.posts.images.store');
+    Route::delete('images/{image}', 'ImagesController@destroy')->name('admin.images.destroy');
+
     //rutas de administración
 });
 

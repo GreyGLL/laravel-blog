@@ -30,10 +30,9 @@ class PostsController extends Controller
     {
         $this->validate($request, ['title' => 'required']);
 
-        $post = Post::create([
-            'title' => $request->title,
-            'url' => str_slug($request->title),
-        ]);
+        $post = Post::create(
+            $request->only('title')
+        );
 
         return redirect()->route('admin.posts.edit', $post);
     }
@@ -43,7 +42,7 @@ class PostsController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.edit')->with('categories',$categories)->with('tags',$tags)->with('post',$Post);
+        return view('admin.posts.edit')->with('categories',$categories)->with('tags',$tags)->with('post',$post);
     }
 
     public function update(Post $post, Request $request)
@@ -58,15 +57,25 @@ class PostsController extends Controller
         ]);
         // return Post::create($request->all());
         $post->title = $request->title;
-        $post->url = str_slug($request->title);
         $post->subtitle = $request->subtitle;
         $post->content = $request->content;
         $post->extract = $request->extract;
         $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-        $post->category_id = $request->category_id;
+        $post->category_id = Category::find($cat = $request->category)
+                                ? $cat
+                                : Category::create(['name' => $cat])->id;
         $post->save();
 
-        $post->tags()->sync($request->tags);
+        $tags = [];
+
+        foreach ($request->tags as $tag)
+        {
+            $tags[] = Tag::find($tag)
+                        ? $tag
+                        : Tag::create(['name' => $tag])->id;
+        }
+
+        $post->tags()->sync($tags);
 
         return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicación ha sido guardada');
         // return $request->all();

@@ -27,27 +27,25 @@
 
 @stop @section('content')
 <div class="row">
-<form method="POST" action="{{ route('admin.posts.update', $post) }}">
-    {{ csrf_field() }} {{ method_field('PUT')}}
+    <form method="POST" action="{{ route('admin.posts.update', $post) }}">
+        {{ csrf_field() }} {{ method_field('PUT')}}
         <div class="col-md-8">
             <div class="card card-danger">
                 <div class="card-body">
-                <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                         <label>Título de la publicación</label>
-                        <input name="title" class="form-control"
-                        value = "{{ old('title', $post->title) }}" placeholder="Inserte título de la publicación">
-                        {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
+                        <input name="title" class="form-control" value="{{ old('title', $post->title) }}" placeholder="Inserte título de la publicación"> {!! $errors->first('title', '
+                        <span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                         <label>Contenido de la publicación</label>
                         <textarea rows="10" name="content" class="form-control" placeholder="Inserta el contenido de la publicación">{{ old('content', $post->content) }}</textarea>
-                        {!! $errors->first('content', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('content', '
+                        <span class="help-block">:message</span>') !!}
                     </div>
                 </div>
             </div>
         </div>
-    </form>
-
 </div>
 <div class="col-md-4">
     <div class="card card-danger">
@@ -61,35 +59,40 @@
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
-                    <input name="published_at" type="text" class="form-control float-right"
-                    value="{{ old('published_at', $post->published_at ? $post->published_at->format('m/d/Y')) : null }}" id="reservation">
+                    <input name="published_at" type="text" class="form-control float-right" value="{ old('published_at', $post->published_at ? $post->published_at->format('m/d/Y')) : null }"
+                        id="reservation">
                 </div>
                 <!-- /.input group -->
             </div>
             <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
                 <label>Categorías</label>
-                <select name="category" class="form-control">
+                <select name="category" class="form-control select2">
                     <option value="">Seleccione categoría</option>
                     @foreach ($categories as $category)
-                <option value="{{ $category->id }}"
-                        {{ old('category', $post->category_id) == $cateogry->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ old( 'category', $post->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
-                {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
+                {!! $errors->first('category', '
+                <span class="help-block">:message</span>') !!}
             </div>
             <div class="form-group">
                 <label>Etiquetas</label>
-                <select name="tags[]" class="form-control select2"                       multiple="multiple"
-                        data-placeholder="Seleccione las etiquetas" style="width: 100%;">
+                <select name="tags[]" class="form-control select2" multiple="multiple" data-placeholder="Seleccione las etiquetas" style="width: 100%;">
                     @foreach ($tags as $tag)
-                        <option {{ collect(old('tags', $post->tags->pluck('id')))->contains($tag->id) ? 'selected' : '' }} value="{{$tag->id}}">{{$tag->name}}</option>
+                    <option {{ collect(old( 'tags', $post->tags->pluck('id')))->contains($tag->id) ? 'selected' : '' }} value="{{$tag->id}}">{{$tag->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group {{ $errors->has('extract') ? 'has-error' : '' }}">
                 <label>Extracto de la publicación</label>
                 <textarea name="extract" class="form-control textarea" placeholder="Inserta un extracto de la publicación">{{ old('extract', $post->extract) }}</textarea>
-                {!! $errors->first('extract', '<span class="help-block">:message</span>') !!}
+                {!! $errors->first('extract', '
+                <span class="help-block">:message</span>') !!}
+            </div>
+            <div class="form-group">
+                <div class="dropzone">
+
+                </div>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -98,33 +101,78 @@
 
     </div>
 </div>
-@stop
+</form>
+<div class="col-md-8">
+    <div class="card card-primary">
+        <div class="card-body">
+            <div class="row">
+                <div class="row">
+                    @foreach ($post->images as $image)
+                    <form method="POST" action="{{ route('admin.images.destroy', $image) }}">
+                        {{ method_field('DELETE') }} {{ csrf_field() }}
+                        <div class="col-md-3">
+                            <button class="btn btn-danger">
+                                <i class=" btn-xs fa fa-remove">
+                            </button>
+                            <img class="img-responsive" src="{{ url($image->url) }}">
+                        </div>
+                    </form>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@stop @push('styles')
+<!-- DropZone -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css">
+<!-- flat pickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="/adminlte/plugins/select2/select2.min.css"> @endpush @push('scripts')
+<!-- DropZone -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Select2 -->
+<script src="/adminlte/plugins/select2/select2.full.min.js"></script>
+<!-- flat pickr-->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    $("#reservation").flatpickr({
+        enableTime: false,
+        dateFormat: "d-m-Y"
+    });
 
-@push('styles')
-    <!-- flat pickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="/adminlte/plugins/select2/select2.min.css">
-@endpush
+    //Initialize Select2 Elements
+    $('.select2').select2({
+        tags: true
+    });
 
-@push('scripts')
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-    <!-- Select2 -->
-    <script src="/adminlte/plugins/select2/select2.full.min.js"></script>
-    <!-- flat pickr-->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        $("#reservation").flatpickr({enableTime: false,
-                                    dateFormat: "d-m-Y"});
+    // bootstrap WYSIHTML5 - text editor
 
-        //Initialize Select2 Elements
-        $('.select2').select2()
+    $('.textarea').wysihtml5({
+        toolbar: {
+            fa: true
+        }
+    })
 
-        // bootstrap WYSIHTML5 - text editor
+    var myDropZone = new Dropzone('.dropzone', {
+        url: '/admin/posts/{ $posts->url }/images',
+        acceptedFiles: 'image/*',
+        paramName: image,
+        maxFilesize: 2,
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        dictDefaultMessage: 'Arrastra las fotos aquí para subirlas'
+    });
 
-        $('.textarea').wysihtml5({
-            toolbar: { fa: true }
-        })
-    </script>
+    myDropzone.on('error', function (file, res) {
+        var msg = res.image[0];
+        $('.dz-error-message:last > span').text(msg);
+    });
+
+    Dropzone.autoDiscover = false;
+</script>
 @endpush
