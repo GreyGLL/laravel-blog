@@ -1,4 +1,4 @@
-@extends('layout')
+{{-- @extends('layout')
 
 @section('meta-title',$post->title)
 @section('meta-description',$post->extract)
@@ -8,4 +8,4 @@
                     <img src="{{ $post->images->first()->url }}" alt="" class="c-post__img">
                     </picture>
                 @endif
-@endsection
+@endsection --}}
