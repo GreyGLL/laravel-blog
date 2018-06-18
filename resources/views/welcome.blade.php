@@ -7,14 +7,16 @@
         <div class="o-grid-auto">
             @foreach($posts as $post)
             <article class="c-post">
-                {{-- @if ($post->images->count() === 1) --}}
-                    <picture>
-                    {{-- <img src="{{ $post->images->first()->url }}" alt="" class="c-post__img"> --}}
+                @if ($post->images->count() === 1)
+                    <picture><img src="{{ $post->images->first()->url }}" alt="" class="c-post__img">
                     </picture>
-                {{-- @endif --}}
+                @endif
                 <div class="c-post__content">
+                    @if (isset($title))
+                        <h3>{{ $title }}</h3>
+                    @endif
                     <header class="c-post__header">
-                        <div class="c-post__category"><a href="#">{{$post->category->name}}</div>
+                    <div class="c-post__category"><a href="{{ route('categories.show', $post->category) }}">{{ $post->category->name }}</a></div>
                         <div class="c-post__date">{{$post->published_at->format('M d')}}</div>
                         <h1 class="c-post__title">{{$post->title}}</h1>
                         <div class="c-post__subtitle">
@@ -23,11 +25,11 @@
                     </header>
                     <p class="c-post__text">{{$post->extract}}</p>
                     <footer class="c-post__footer">
-                    <a href="#" class="c-post__link">Leer más</a>
+                    <a href="/blog/{{ $post->url }}" class="c-post__link">Leer más</a>
                         <div class="c-post__tags">
-                            {{-- @foreach($tags as $tag)
-                        <a href="#">#{{$tag->name}}</a>
-                            @endforeach --}}
+                            @foreach($post->tags as $tag)
+                        <a href="{{ route('tags.show', $tag) }}">#{{$tag->name}}</a>
+                            @endforeach
                         </div>
                     </footer>
                 </div>
@@ -39,5 +41,5 @@
 
 @endsection
 
-{{-- {{ $posts->links() }} --}}
+{{ $posts->links() }}
 

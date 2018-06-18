@@ -18,83 +18,54 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('posts',$posts);
     }
 
-     public function create()
-     {
+    public function store(Request $request)
+    {
+        $this->validate($request, ['title' => 'required']);
 
+        Post::create(['title' => $request->title]);
+
+        $post = Post::create($request->only('title') );
+
+        return redirect()->route('admin.posts.edit', $post);
+    }
+
+    public function edit(Post $post)
+    {
         $categories = Category::all();
         $tags = Tag::all();
 
-       return view('admin.posts.create', compact(['categories', 'tags']));
+        return view('admin.posts.edit', compact(['categories', 'tags','post']));
+
     }
 
-    public function store(Request $request)
+    public function update(Post $post, Request $request)
     {
-        $post = new Post;
+
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required',
+            'category' => 'required',
+            'extract' => 'required',
+            'tags' => 'required']);
+
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->content = $request->content;
         $post->extract = $request->extract;
-        $post->published_at = Carbon::parse($request->published_at);
-        $post->category_id = $request->category_id;
+        $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
+        $post->category_id = Category::find( $category = $request->category) ? $category
+        : Category::create(['name' => $category])->id;
         $post->save();
 
-        $post->tags()->attach($request->tags);
+        $tags = [];
 
-        return back()->with('flash', 'Tu publicación ha sido creada');
+        foreach ($request->tags as $tag)
+        {
+            $tags[] = Tag::find($tag) ? $tag :Tag::create(['name' => $tag])->id;
+        }
+
+        $post->tags()->sync($tags);
+
+        return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicación ha sido guardada');
     }
-
-    //     $this->validate($request, ['title' => 'required']);
-
-    //     $post = Post::create(
-    //         $request->only('title')
-    //     );
-
-    //     return redirect()->route('admin.posts.edit', $post);
-    // }
-
-    // public function edit(Post $post)
-    // {
-    //     $categories = Category::all();
-    //     $tags = Tag::all();
-
-    //     return view('admin.posts.edit')->with('categories',$categories)->with('tags',$tags)->with('post',$post);
-    // }
-
-    // public function update(Post $post, Request $request)
-    // {
-    //     // validación
-    //     $this->validate($request, [
-    //         'title' => 'required',
-    //         'body'  => 'required',
-    //         'category' => 'required',
-    //         'extract' => 'required',
-    //         'tags' => 'required'
-    //     ]);
-    //     // return Post::create($request->all());
-    //     $post->title = $request->title;
-    //     $post->subtitle = $request->subtitle;
-    //     $post->content = $request->content;
-    //     $post->extract = $request->extract;
-    //     $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-    //     $post->category_id = Category::find($cat = $request->category)
-    //                             ? $cat
-    //                             : Category::create(['name' => $cat])->id;
-    //     $post->save();
-
-    //     $tags = [];
-
-    //     foreach ($request->tags as $tag)
-    //     {
-    //         $tags[] = Tag::find($tag)
-    //                     ? $tag
-    //                     : Tag::create(['name' => $tag])->id;
-    //     }
-
-    //     $post->tags()->sync($tags);
-
-    //     return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicación ha sido guardada');
-    //     // return $request->all();
-    // }
 }
-
-

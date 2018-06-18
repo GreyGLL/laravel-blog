@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Post;
+use App\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
-class ImageController extends Controller
+class ImagesController extends Controller
 {
-    public function store(Post  $post)
+    public function store(Post $post)
     {
         $this->validate(request(), [
             'image' => 'required|image|max:2048'

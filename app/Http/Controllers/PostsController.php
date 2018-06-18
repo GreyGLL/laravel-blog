@@ -9,8 +9,6 @@ class PostsController extends Controller
 {
     public function show(Post $post)
     {
-        $post = Post::find($id);
-
         return view('posts.show')->with('post',$post);
     }
 }

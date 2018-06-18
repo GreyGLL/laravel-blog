@@ -1,9 +1,7 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-           with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="{{ route('dashboard') }}" data-toggle: "modal" data-target: "#myModal" class="nav-link">
+            <a href="{{ route('dashboard') }}" class="nav-link">
                 <i class="nav-icon fa fa-home"></i>
                 <p>
                     Inicio
@@ -26,7 +24,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.posts.create') }}" class="nav-link {{ request()->is('admin/posts/create') ? 'active' : '' }}">
+                    <a href="#" data-toggle="modal" data-target="#myModal" class="nav-link">
                         <i class="fa fa-pencil nav-icon"></i>
                         <p>Crear Posts</p>
                     </a>

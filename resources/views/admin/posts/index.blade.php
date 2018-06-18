@@ -19,10 +19,10 @@
 @stop
 
 @section('content')
-    <div class="card card-danger">
+    <div class="card card-danger card-outline">
         <div class="card-header">
         <h3 class="card-title">Listado de publicaciones</h3>
-        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Crear publicación</button>
+        <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Crear publicación</button>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -42,8 +42,9 @@
                         <td>{{$post->title}}</td>
                         <td>{{$post->extract}}</td>
                         <td>
-                        <a href="#" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-eye"></i></a>
-                            <a href="#" class="btn btn-xs btn-info"><i class="fa fa-pencil"></i></a>
+                        <a href="{{ route('posts.show', $post) }}" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-eye"></i></a>
+                            <a href="{{ route('admin.posts.edit', $post) }}"
+                            class="btn btn-xs btn-info"><i class="fa fa-pencil"></i></a>
                             <a href="#" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                         </td>
 
