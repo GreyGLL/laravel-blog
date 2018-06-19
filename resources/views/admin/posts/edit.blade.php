@@ -28,8 +28,8 @@
 @stop @section('content')
 <div class="row">
     <div class="card card-danger card-outline">
-        <form method="POST" action="{{ route('admin.posts.update', $post) }}">
-            {{ csrf_field() }} {{ method_field('PUT') }}
+        <form method="POST" action="{{ route('admin.posts.store') }}">
+            {{ csrf_field() }}
             <div class="col-md-8">
                 <div class="card-body">
                     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">

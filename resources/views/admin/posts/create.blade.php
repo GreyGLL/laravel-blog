@@ -1,4 +1,4 @@
-<!-- Modal -->
+{{-- <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <form method="POST" action="{{ route('admin.posts.store') }}">
             {{ csrf_field() }}
@@ -10,7 +10,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                            {{-- <label>Título de la publicación</label> --}}
+                            <label>Título de la publicación</label>
                             <input name="title"
                             class="form-control"
                             value = "{{ old('title') }}"
@@ -25,4 +25,4 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}

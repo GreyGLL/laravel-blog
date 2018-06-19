@@ -18,16 +18,16 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('posts',$posts);
     }
 
-    public function store(Request $request)
-    {
-        $this->validate($request, ['title' => 'required']);
+    // public function store(Request $request)
+    // {
+    //     $this->validate($request, ['title' => 'required']);
 
-        Post::create(['title' => $request->title]);
+    //     Post::create(['title' => $request->title]);
 
-        $post = Post::create($request->only('title') );
+    //     $post = Post::create($request->only('title') );
 
-        return redirect()->route('admin.posts.edit', $post);
-    }
+    //     return redirect()->route('admin.posts.edit', $post);
+    // }
 
     public function edit(Post $post)
     {
@@ -38,7 +38,7 @@ class PostsController extends Controller
 
     }
 
-    public function update(Post $post, Request $request)
+    public function store(Request $request)
     {
 
         $this->validate($request, [
@@ -48,6 +48,7 @@ class PostsController extends Controller
             'extract' => 'required',
             'tags' => 'required']);
 
+        $post = new Post();
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->content = $request->content;
