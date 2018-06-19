@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.posts.edit') }}" class="nav-link {{ request()->is('admin/posts/edit') ? 'active' : '' }}">
+                    <a href="{{ route('admin.posts.create') }}" class="nav-link {{ request()->is('admin/posts/create') ? 'active' : '' }}">
                         <i class="fa fa-pencil nav-icon"></i>
                         <p>Crear Posts</p>
                     </a>

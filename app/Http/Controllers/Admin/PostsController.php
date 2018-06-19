@@ -29,12 +29,12 @@ class PostsController extends Controller
     //     return redirect()->route('admin.posts.edit', $post);
     // }
 
-    public function edit(Post $post)
+    public function create()
     {
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.edit', compact(['categories', 'tags','post']));
+        return view('admin.posts.create', compact(['categories', 'tags','post']));
 
     }
 
@@ -68,5 +68,14 @@ class PostsController extends Controller
         $post->tags()->sync($tags);
 
         return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicación ha sido guardada');
+    }
+
+    public function edit()
+    {
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('admin.posts.edit', compact(['categories', 'tags','post']));
+
     }
 }

@@ -24,9 +24,9 @@ Route::group([
 function(){
     Route::get('posts', 'PostsController@index')->name('admin.posts.index');
     Route::get('/', 'AdminController@index')->name('dashboard');
-    //Route::get('post/create', 'PostsController@store')->name('admin.posts.create');
+    Route::get('post/create', 'PostsController@create')->name('admin.posts.create');
     //Route::post('posts', 'PostsController@store')->name('admin.posts.store');
-    Route::get('posts/edit', 'PostsController@edit')->name('admin.posts.edit');
+    Route::get('posts/{post}', 'PostsController@edit')->name('admin.posts.edit');
     Route::post('posts/{post}', 'PostsController@store')->name('admin.posts.store');
     Route::post('posts/{post}/images', 'ImagesController@store')->name('admin.posts.images.store');
     Route::delete('images/{image}', 'ImagesController@destroy')->name('admin.images.destroy');
