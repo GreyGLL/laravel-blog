@@ -880,6 +880,7 @@ a .c-card__img:hover {
   font-size: 25px;
   font-weight: 900;
   color: red;
+  width: 100%;
 }
 
 .c-post__date {

@@ -3,7 +3,7 @@
     <div class="row mb-2">
         <div class="col-sm-6">
             <h1 class="m-0 text-dark">POSTS
-                <small>Crear publicación</small>
+                <small>Editar publicación</small>
             </h1>
         </div>
         <!-- /.col -->
@@ -34,16 +34,15 @@
                 <div class="card-body">
                     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                         <label>Título de la publicación</label>
-                        <input name="title" class="form-control" {{ old('title', $post->title) }}placeholder="Inserta aquí el título de la publicación">
-                        {!! $errors->first('title', '
+                        <input name="title" class="form-control" {{ old( 'title', $post->title) }}placeholder="Inserta aquí el título de la publicación"> {!! $errors->first('title', '
                         <span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group {{ $errors->has('subtitle') ? 'has-error' : '' }}">
-                            <label>Subtítulo de la publicación</label>
-                            <textarea name="subtitle" class="form-control" placeholder="Inserta aquí el subtitulo de la publicación">{{ old('subtitle', $post->extract) }}</textarea>
-                            {!! $errors->first('subtitle', '
-                                <span class="help-block">:message</span>') !!}
-                        </div>
+                        <label>Subtítulo de la publicación</label>
+                        <textarea name="subtitle" class="form-control" placeholder="Inserta aquí el subtitulo de la publicación">{{ old('subtitle', $post->extract) }}</textarea>
+                        {!! $errors->first('subtitle', '
+                        <span class="help-block">:message</span>') !!}
+                    </div>
                     <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                         <label>Contenido de la publicación</label>
                         <textarea rows="10" name="content" class="form-control" id="editor" placeholder="Inserta aquí el contenido completo de la publicación">{{ old('content', $post->content) }}</textarea>
@@ -52,13 +51,15 @@
                     </div>
                     <div class="row">
                         @foreach ($post->images as $image)
-                    <form method="POST" action="{{ route('admin.images.destroy', $image) }}">
-                                {{ method_field('DELETE') }} {{ csrf_field() }}
-                                <div class="col-md-2">
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
-                                    <img class="img-responsive" src="{{ url($image->url) }}">
-                                </div>
-                            </form>
+                        <form method="POST" action="{{ route('admin.images.destroy', $image) }}">
+                            {{ method_field('DELETE') }} {{ csrf_field() }}
+                            <div class="col-md-2">
+                                <button class="btn btn-danger btn-xs">
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                                <img class="img-responsive" src="{{ url($image->url) }}">
+                            </div>
+                        </form>
                         @endforeach
                     </div>
                 </div>
@@ -75,7 +76,8 @@
                                 <i class="fa fa-calendar"></i>
                             </span>
                         </div>
-                        <input name="published_at" type="text" class="form-control float-right" value="{{ old('published_at', $post->published_at ? $post->published_at->format('d/m/Y') : null) }}" id="reservation">
+                        <input name="published_at" type="text" class="form-control float-right" value="{{ old('published_at', $post->published_at ? $post->published_at->format('d/m/Y') : null) }}"
+                            id="reservation">
                     </div>
                     <!-- /.input group -->
                 </div>
@@ -84,19 +86,17 @@
                     <select name="category" class="form-control select2">
                         <option value="">Selecciona una categoria</option>
                         @foreach ($categories as $category)
-                        <option value="{{ $category->id }}"
-                            {{ old('category', $post->category_id) == $category->id ? 'selected' : '' }}
-                        >{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" {{ old( 'category', $post->category_id) == $category->id ? 'selected' : '' }} >{{ $category->name }}</option>
                         @endforeach
                     </select>
                     {!! $errors->first('category', '
-                        <span class="help-block">:message</span>') !!}
+                    <span class="help-block">:message</span>') !!}
                 </div>
                 <div class="form-group">
                     <label>Etiquetas</label>
                     <select name="tags[]" class="form-control select2" multiple="multiple" data-placeholder="Seleccione las etiquetas" style="width: 100%;">
                         @foreach ($tags as $tag)
-                        <option {{ collect(old('tags', $post->tags->pluck('id')))->contains($tag->id) ? 'selected' : '' }} value="{{$tag->id}}">{{$tag->name}}</option>
+                        <option {{ collect(old( 'tags', $post->tags->pluck('id')))->contains($tag->id) ? 'selected' : '' }} value="{{$tag->id}}">{{$tag->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -104,7 +104,7 @@
                     <label>Extracto de la publicación</label>
                     <textarea name="extract" class="form-control" placeholder="Inserta aquí el extracto de la publicación">{{ old('extract', $post->extract) }}</textarea>
                     {!! $errors->first('extract', '
-                        <span class="help-block">:message</span>') !!}
+                    <span class="help-block">:message</span>') !!}
                 </div>
                 <div class="form-group">
                     <div class="dropzone">
@@ -154,8 +154,7 @@
 
     ClassicEditor
         .create(document.querySelector('#editor'))
-        .then(function (editor) {
-        })
+        .then(function (editor) {})
         .catch(function (error) {
             console.error(error)
         })
@@ -180,4 +179,3 @@
     Dropzone.autoDiscover = false;
 </script>
 @endpush
-

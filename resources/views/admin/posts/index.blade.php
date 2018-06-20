@@ -22,7 +22,7 @@
     <div class="card card-danger card-outline">
         <div class="card-header">
         <h3 class="card-title">Listado de publicaciones</h3>
-        <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Crear publicación</button>
+        <a href="{{ route('admin.posts.create') }}"><button class="btn btn-danger pull-right">Crear publicación</button></a>
         </div>
         <!-- /.card-header -->
         <div class="card-body">

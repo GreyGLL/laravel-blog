@@ -18,16 +18,25 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('posts',$posts);
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        $this->validate($request, ['title' => 'required']);
+        $categories = Category::all();
+        $tags = Tag::all();
 
-        Post::create(['title' => $request->title]);
+        return view('admin.posts.create', compact(['categories', 'tags']));
 
-        $post = Post::create($request->only('title') );
-
-        return redirect()->route('admin.posts.edit', $post);
     }
+
+    // public function store(Request $request)
+    // {
+    //     $this->validate($request, ['title' => 'required']);
+
+    //     Post::create(['title' => $request->title]);
+
+    //     $post = Post::create($request->only('title') );
+
+    //     return redirect()->route('admin.posts.edit', $post);
+    // }
 
     public function edit(Post $post)
     {
