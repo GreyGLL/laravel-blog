@@ -15,7 +15,7 @@ class PostsController extends Controller
     {
         $posts = Post::all();
 
-        return view('admin.posts.index')->with('posts',$posts);
+        return view('admin.posts.index')->with('posts', $posts);
     }
 
     public function create()
@@ -76,5 +76,51 @@ class PostsController extends Controller
         $post->tags()->sync($tags);
 
         return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicación ha sido guardada');
+    }
+
+    public function store(Request $request)
+    {
+        //dd($request->all());
+        // try {
+        //     $request->validate([
+        //         'title' => 'required',
+        //         'content' => 'required',
+        //         'category' => 'required',
+        //         'extract' => 'required',
+        //         'tags' => 'required',
+        //         'image' => 'required|image|max:2048']);
+        // } catch (\Exception $e) {
+        //     echo $e->getMessage();
+        //     exit();
+        // }
+
+            dd();
+        $post = new Post();
+        $post->title = $request->title;
+        $post->subtitle = $request->subtitle;
+        $post->content = $request->content;
+        $post->extract = $request->extract;
+        $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
+        $post->category_id = Category::find($request->category) ? $category
+        : Category::create(['name' => $category])->id;
+        $post->save();
+
+        $tags = [];
+
+        foreach ($request->tags as $tag)
+        {
+            $tags[] = Tag::find($tag) ? $tag :Tag::create(['name' => $tag])->id;
+        }
+
+        $post->tags()->sync($tags);
+
+        $image = request()->file('image')->store('public');
+
+        Image::create([
+            'url' => Storage::url($image),
+            'post_id' => $post->id
+        ]);
+            dd($post);
+        return redirect()->route('admin.posts.create', $post)->with('flash', 'Tu publicación ha sido creada');
     }
 }

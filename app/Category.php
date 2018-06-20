@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $guarded = [];
 
- public function getRouteKeyName()
+public function getRouteKeyName()
 {
     return 'url';
 }

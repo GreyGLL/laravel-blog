@@ -1,4 +1,5 @@
-@extends('admin.layout') @section('header')
+@extends('admin.layout')
+@section('header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -25,7 +26,8 @@
     <!-- /.row -->
 </div>
 <!-- /.container-fluid -->
-@stop @section('content')
+@stop
+@section('content')
 <div class="row">
     <div class="card card-danger card-outline">
         <form method="POST" action="{{ route('admin.posts.update', $post) }}">
@@ -54,9 +56,9 @@
                         <form method="POST" action="{{ route('admin.images.destroy', $image) }}">
                             {{ method_field('DELETE') }} {{ csrf_field() }}
                             <div class="col-md-2">
-                                <button class="btn btn-danger btn-xs">
+                                <a href="{{ route('admin.images.destroy', $image) }}" class="btn btn-danger btn-xs">
                                     <i class="fa fa-remove"></i>
-                                </button>
+                                </a>
                                 <img class="img-responsive" src="{{ url($image->url) }}">
                             </div>
                         </form>

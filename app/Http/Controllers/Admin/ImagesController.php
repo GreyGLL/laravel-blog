@@ -32,6 +32,8 @@ class ImagesController extends Controller
 
         Storage::delete($imagePath);
 
-        return back()->with('flash', 'Foto eliminada');
+        $post = Post::find($image->post_id);
+
+        return redirect(route('admin.posts.edit', $post->url))->with('flash', 'Foto eliminada');
     }
 }
