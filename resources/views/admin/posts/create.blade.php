@@ -30,7 +30,7 @@
 @section('content')
 <div class="row">
     <div class="card card-danger card-outline">
-        <form method="POST" action="{{ route('admin.posts.store') }}" class="dropzone"  enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.posts.store') }}">
             {{ csrf_field() }}
             <div class="col-md-8">
                 <div class="card-body">
@@ -95,10 +95,6 @@
                     {!! $errors->first('extract', '
                     <span class="help-block">:message</span>') !!}
                 </div>
-                <div class="form-group">
-                    {{-- <input type="file" name="file"> --}}
-                </div>
-                <div class="form-group">
                     <button type="submit" class="btn btn-danger btn-box">Guardar Publicación</button>
                 </div>
             </div>
@@ -165,6 +161,6 @@
     //     $('.dz-error-message:last > span').text(msg);
     // });
 
-    Dropzone.autoDiscover = false;
+    // Dropzone.autoDiscover = false;
 </script>
 @endpush

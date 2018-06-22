@@ -1,7 +1,8 @@
 <?php
 
 namespace App;
-Use App\Post;
+
+use App\Post;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -15,7 +16,7 @@ public function getRouteKeyName()
 
     public function posts()
     {
-        $this->hasMany(Post::class);
+        return $this->hasMany(Post::class);
     }
 
     public function setNameAttribute($name)

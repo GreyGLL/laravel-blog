@@ -94,15 +94,17 @@ class PostsController extends Controller
         //     exit();
         // }
 
-            dd();
         $post = new Post();
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
         $post->content = $request->content;
         $post->extract = $request->extract;
         $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-        $post->category_id = Category::find($request->category) ? $category
-        : Category::create(['name' => $category])->id;
+        if (Category::find($request->category)) {
+            $post->category_id = $request->category;
+        } else {
+            $post->category_id = Category::create(['name' => $category])->id;
+        }
         $post->save();
 
         $tags = [];
@@ -114,13 +116,13 @@ class PostsController extends Controller
 
         $post->tags()->sync($tags);
 
-        $image = request()->file('image')->store('public');
+        // $image = request()->file('image')->store('public');
 
-        Image::create([
-            'url' => Storage::url($image),
-            'post_id' => $post->id
-        ]);
-            dd($post);
+        // Image::create([
+        //     'url' => Storage::url($image),
+        //     'post_id' => $post->id
+        // ]);
+
         return redirect()->route('admin.posts.create', $post)->with('flash', 'Tu publicación ha sido creada');
     }
 }

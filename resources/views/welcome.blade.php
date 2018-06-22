@@ -1,9 +1,9 @@
 @extends('layout.mainlayout') @section('content') @include('layout.partials.header')
-@if (isset($title))
-<h3>{{ $title }}</h3>
-@endif
 <div class="u-bg-color-shade-200 u-space-between-sections-pd">
     <div class="c-container-blog o-wrapper o-wrapper--l">
+            @if (isset($title))
+                <h3 style="margin-bottom:30px;font-weight:bold;">{{ $title }}</h3>
+            @endif
         <div class="o-grid-auto">
             @foreach($posts as $post)
             <article class="c-post">
@@ -12,9 +12,9 @@
                     </picture>
                 @endif
                 <div class="c-post__content">
-                    @if (isset($title))
+                    {{-- @if (isset($title))
                         <h3>{{ $title }}</h3>
-                    @endif
+                    @endif --}}
                     <header class="c-post__header">
                     <div class="c-post__category"><a href="{{ route('categories.show', $post->category) }}">{{ $post->category->name }}</a></div>
                         <div class="c-post__date">{{$post->published_at->format('M d')}}</div>
