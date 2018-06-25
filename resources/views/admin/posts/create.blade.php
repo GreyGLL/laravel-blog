@@ -29,6 +29,18 @@
 @stop
 @section('content')
 <div class="row">
+    <div class="lang">
+        <a href="{{ route('admin.posts.create') }}" class="btn btn-danger btn-xs">
+            <i class="fa fa-comment"> ES </i>
+        </a>
+    </div>
+    <div class="lang">
+        <a href="{{ route('admin.posts.create') }}" class="btn btn-danger btn-xs">
+            <i class="fa fa-comment"> EN </i>
+        </a>
+    </div>
+</div>
+<div class="row">
     <div class="card card-danger card-outline">
         <form method="POST" action="{{ route('admin.posts.store') }}">
             {{ csrf_field() }}
