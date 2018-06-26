@@ -28,22 +28,20 @@
 <!-- /.container-fluid -->
 @stop
 @section('content')
-<div class="row">
-    <div class="lang">
-        <a href="{{ route('admin.posts.create') }}" class="btn btn-danger btn-xs">
-            <i class="fa fa-globe"> ES </i>
-        </a>
-    </div>
-    <div class="lang">
-        <a href="{{ route('admin.posts.create') }}" class="btn btn-danger btn-xs">
-            <i class="fa fa-globe"> EN </i>
-        </a>
-    </div>
+<div class="row"><!-- foreach recorriendo idiomas -->
+    @foreach ($languages as $language)
+        <div class="lang">
+            <a href="{{ route('admin.posts.create') }}?lang_id={{ $language->id }}" class="btn btn-danger btn-xs">
+                <i class="fa fa-globe"> {{ $language->code }} </i>
+            </a>
+        </div>
+    @endforeach
 </div>
 <div class="row">
     <div class="card card-danger card-outline">
         <form method="POST" action="{{ route('admin.posts.store') }}">
             {{ csrf_field() }}
+            <input type="hidden" name="lang_id" value="{{ $lang_id }}">
             <div class="col-md-8">
                 <div class="card-body">
                     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">

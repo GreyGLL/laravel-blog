@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\Category;
+use App\Language;
 use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,12 +19,20 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('posts', $posts);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        // Acceder a idiomas disponibles en la tabla language
+
+        $languages = Language::all();
+        if ($request->lang_id) {
+            $lang_id = $request->lang_id;
+        } else {
+            $lang_id = 1;
+        } // hacer un if
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.create', compact(['categories', 'tags']));
+        return view('admin.posts.create', compact(['categories', 'tags', 'lang_id', 'languages'])); // Pasarlos a la vista
 
     }
 
@@ -80,6 +89,7 @@ class PostsController extends Controller
 
     public function store(Request $request)
     {
+
         //dd($request->all());
         // try {
         //     $request->validate([
@@ -94,18 +104,24 @@ class PostsController extends Controller
         //     exit();
         // }
 
-        $post = new Post();
-        $post->title = $request->title;
-        $post->subtitle = $request->subtitle;
-        $post->content = $request->content;
-        $post->extract = $request->extract;
-        $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
+        //dd($request->all());
+        $lang_id = $request->lang_id;
+
+        //dd($lang_id);
+
+        $published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
         if (Category::find($request->category)) {
-            $post->category_id = $request->category;
+            $category_id = $request->category;
         } else {
-            $post->category_id = Category::create(['name' => $category])->id;
+            $category_id = Category::create(['name' => $category])->id;
         }
-        $post->save();
+
+        $post = Post::create(['published_at' => $published_at, 'category_id' => $category_id ]);
+
+
+        $post->languages()->syncWithoutDetaching([
+            $lang_id => ['title' => $request->title, 'subtitle' => $request->subtitle, 'content' => $request->content, 'extract' => $request->extract],
+        ]);
 
         $tags = [];
 

@@ -5,13 +5,69 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Category;
+use App\Image;
+use App\Language;
 
 class Post extends Model
-
 
 {
     protected $guarded = [];
     protected $dates = ['published_at'];
+    protected $fillable = ['published_at', 'category_id'];
+
+    public function getTitleAttribute()
+    {
+        if ($this->languages()->where('code', \App::getLocale())->first())
+        {
+            return $this->languages()->where('code', \App::getLocale())->first()->pivot->title;
+        }
+
+        return " ";
+    }
+
+    public function getUrlAttribute()
+    {
+        if ($this->languages()->where('code', \App::getLocale())->first()) {
+
+        return $this->languages()->where('code', \App::getLocale())->first()->pivot->url;
+
+        }
+
+        return " ";
+    }
+
+    public function getSubtitleAttribute()
+    {
+        if ($this->languages()->where('code', \App::getLocale())->first()) {
+
+        return $this->languages()->where('code', \App::getLocale())->first()->pivot->subtitle;
+
+        }
+
+        return " ";
+    }
+
+    public function getExtractAttribute()
+    {
+        if ($this->languages()->where('code', \App::getLocale())->first()) {
+
+        return $this->languages()->where('code', \App::getLocale())->first()->pivot->extract;
+
+        }
+
+        return " ";
+    }
+
+    public function getContentAttribute()
+    {
+        if ($this->languages()->where('code', \App::getLocale())->first()) {
+
+        return $this->languages()->where('code', \App::getLocale())->first()->pivot->content;
+
+        }
+
+        return " ";
+    }
 
     public function category()
     {
@@ -30,7 +86,7 @@ class Post extends Model
 
     public function languages()
     {
-        return $this->belongsToMany(Language::class);
+        return $this->belongsToMany('App\Language','post_language')->withPivot('title', 'url', 'subtitle', 'extract', 'content', 'published_at', 'category_id');
     }
 
     public function images()
