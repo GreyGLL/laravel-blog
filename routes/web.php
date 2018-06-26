@@ -10,12 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'PagesController@home')->name('blog.home');
-Route::get('blog/{post}', 'PostsController@show')->name('posts.show');
-Route::get('categories/{category}', 'CategoriesController@show')->name('categories.show');
-Route::get('tags/{tag}', 'TagsController@show')->name('tags.show');
-
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect']],
+function(){
+    Route::get('/', 'PagesController@home')->name('blog.home');
+    Route::get(LaravelLocalization::transRoute('routes.posts') . '/{post}', 'PostsController@show')->name('posts.show');
+    Route::get(LaravelLocalization::transRoute('routes.categories') . '/{category}', 'CategoriesController@show')->name('categories.show');
+    Route::get(LaravelLocalization::transRoute('routes.tags') . '/{tag}', 'TagsController@show')->name('tags.show');
+});
 
 Route::group([
     'prefix' => 'admin',

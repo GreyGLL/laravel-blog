@@ -409,7 +409,7 @@ html {
   -webkit-appearance: none;
   -moz-appearance: none;
   font-size: 32px;
-  color: green;
+  color: red;
   margin-left: auto;
   z-index: 3;
   position: relative;
@@ -503,6 +503,31 @@ html {
   -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
           box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
   padding: 40px;
+}
+
+/* -----------------------------------------------------------------------------
+ * SELECTORS
+ */
+
+.c-selector {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  list-style-type: none;
+  margin-left: 30px;
+}
+
+.c-selector__item {
+  margin-left: 15px;
+  text-transform: capitalize;
+}
+
+.c-selector__link {
+  font-size: 18px;
+  color: red;
 }
 
 /* -----------------------------------------------------------------------------

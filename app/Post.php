@@ -28,6 +28,11 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class);
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class);

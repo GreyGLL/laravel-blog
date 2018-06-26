@@ -1,0 +1,306 @@
+<?php
+
+
+
+Use Illuminate\Support\Facades\Route;
+
+Use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+
+
+/*
+
+|--------------------------------------------------------------------------
+
+| Application Routes
+
+|--------------------------------------------------------------------------
+
+|
+
+| Here is where you can register all of the routes for an application.
+
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+
+| and give it the controller to call when that URI is requested.
+
+|
+
+*/
+
+
+
+Route::post('tellamamos', [
+    'uses' => 'ContactController@teLlamamos',
+    'name' => 'tellamamos',
+]);
+
+Route::get('phpinfo', function() { phpinfo();});
+
+
+
+Route::group(
+
+    [
+
+        'prefix' => LaravelLocalization::setLocale(),
+
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
+
+    ],
+
+    function() {
+
+        Route::controller(LaravelLocalization::transRoute('routes.groups'), "ActivitiesController", ['getIndex' => 'groups']);
+
+
+
+        Route::controller(LaravelLocalization::transRoute('routes.webcam'), "WebCamController", ['getIndex' => 'webcam']);
+
+
+
+        Route::controller(LaravelLocalization::transRoute('routes.meteorology'), "MeteorologyController", ['getIndex' => 'meteorology']);
+
+
+
+        Route::controller(LaravelLocalization::transRoute('routes.media'), "MediaController", ['getIndex' => 'media']);
+
+
+
+        Route::get(LaravelLocalization::transRoute('routes.agenda')."/{slug}", [
+
+            'as' => 'agenda',
+
+            'uses' => 'NewsController@SimpleNew'
+
+        ]);
+
+
+
+        Route::get(LaravelLocalization::transRoute('routes.rent'), [
+
+			'as' => 'charter',
+
+            'uses' => 'RentProductsController@index'
+
+        ]);
+
+        Route::get(LaravelLocalization::transRoute('routes.eventos'), [
+
+            'as' => 'eventos',
+
+            'uses' => 'RentProductsController@index'
+
+        ]);
+
+        Route::get(LaravelLocalization::transRoute('routes.rent-charters'), [
+            'as' => 'rent-charters',
+            'uses' => 'RentProductsController@indexCharters'
+        ]);
+
+
+
+        Route::post(LaravelLocalization::transRoute('routes.rent'), [
+
+			'as' =>'rentPost',
+
+			'uses'=>'RentProductsController@postIndex',
+
+		]);
+
+
+
+		Route::get(LaravelLocalization::transRoute('routes.amarres'), [
+
+			'as' => 'amarres',
+
+            'uses' => 'AmarresController@index'
+
+        ]);
+
+
+		Route::get(LaravelLocalization::transRoute('routes.habitaciones'), [
+
+			'as' => 'habitaciones',
+
+            'uses' => 'HabitacionesController@index'
+
+        ]);
+
+
+
+		Route::post(LaravelLocalization::transRoute('routes.amarres'), [
+
+			'as' => 'amarresPost',
+
+            'uses' => 'AmarresController@postIndex'
+
+        ]);
+
+        Route::post(LaravelLocalization::transRoute('routes.habitaciones'), [
+
+			'as' => 'habitacionesPost',
+
+            'uses' => 'HabitacionesController@postIndex'
+
+        ]);
+
+
+
+		Route::get(LaravelLocalization::transRoute('routes.contact'), [
+
+			'as' => 'contact',
+
+            'uses' => 'ContactController@index'
+
+        ]);
+
+
+
+		Route::post(LaravelLocalization::transRoute('routes.contact'), [
+
+			'as' => 'contactPost',
+
+            'uses' => 'ContactController@postIndex'
+
+        ]);
+
+
+
+        Route::get(LaravelLocalization::transRoute('routes.work-with-us'), [
+
+            'as' => 'work-with-us',
+
+            'uses' => 'ContactController@index'
+
+        ]);
+
+
+
+        Route::post(LaravelLocalization::transRoute('routes.work-with-us'), [
+
+            'as' => 'work-with-us',
+
+            'uses' => 'ContactController@postIndex'
+
+        ]);
+
+
+
+		Route::get(LaravelLocalization::transRoute('routes.escuela-nacional'), [
+
+			'as' => 'escuela-nacional',
+
+            'uses' => 'EscuelaController@index'
+
+        ]);
+
+        Route::get(LaravelLocalization::transRoute('routes.camps'), [
+
+            'as' => 'camps',
+
+            'uses' => 'CampController@getIndex'
+
+        ]);
+
+
+
+        /*AJAX*/
+
+        Route::post(LaravelLocalization::transRoute('routes.escuela-nacional'),[
+
+            'uses'=>'EscuelaController@ajax',
+
+        ]);
+
+
+
+        Route::post('campInfo',[
+
+            'uses'=>'CampsController@getIndex',
+
+        ]);
+
+
+
+        Route::post('productInfo',[
+
+            'uses'=>'RentProductsController@ajax',
+
+        ]);
+
+
+
+        Route::post('activitiesInfo',[
+
+            'uses'=>'ActivitiesController@ajax',
+
+        ]);
+
+
+
+        Route::post('escuelaAjax',[
+
+            'uses'=>'EscuelaController@ajax',
+
+        ]);
+
+
+
+        Route::post('validateCaptcha',[
+
+            'uses'=>'FormulariosController@captchaValidateWithAjax',
+
+        ]);
+
+        /*END AJAX*/
+
+
+
+        Route::get('{page}', [
+
+            'middleware' => 'pageValidator',
+
+            'uses' => 'PagesController@getIndex',
+
+        ]);
+
+
+
+		Route::post('{page}', [
+
+            'middleware' => 'pageValidator',
+
+            'uses' => 'PagesController@postIndex',
+
+        ]);
+
+
+
+        Route::get('{parent}/{page}', [
+
+            'middleware' => 'pageValidator',
+
+            'uses' => 'PagesController@getIndex'
+
+        ]);
+
+
+
+        Route::post('{parent}/{page}', [
+
+            'middleware' => 'pageValidator',
+
+            'uses' => 'PagesController@postIndex'
+
+        ]);
+
+
+
+        /*ALWAYS INDEX THE LAST ROUTE*/
+
+        Route::controller("", "IndexController", ['getIndex' => 'home']);
+
+    }
+
+);

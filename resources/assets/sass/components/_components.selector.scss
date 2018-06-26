@@ -1,0 +1,21 @@
+/* -----------------------------------------------------------------------------
+ * SELECTORS
+ */
+
+.c-selector {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin-left: 30px;
+
+  &__item {
+    margin-left: 15px;
+    text-transform: capitalize;
+  }
+
+  &__link {
+    font-size: 18px;
+    color: red;
+  }
+
+}

@@ -25,7 +25,7 @@
                     </header>
                     <p class="c-post__text">{{$post->extract}}</p>
                     <footer class="c-post__footer">
-                    <a href="/blog/{{ $post->url }}" class="c-post__link">Leer más</a>
+                    <a href="{{ route('posts.show', $post->url) }}" class="c-post__link">Leer más</a>
                         <div class="c-post__tags">
                             @foreach($post->tags as $tag)
                         <a href="{{ route('tags.show', $tag) }}">#{{$tag->name}}</a>
@@ -42,4 +42,3 @@
 @endsection
 
 {{ $posts->links() }}
-

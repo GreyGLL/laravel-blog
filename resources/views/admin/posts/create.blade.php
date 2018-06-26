@@ -31,12 +31,12 @@
 <div class="row">
     <div class="lang">
         <a href="{{ route('admin.posts.create') }}" class="btn btn-danger btn-xs">
-            <i class="fa fa-comment"> ES </i>
+            <i class="fa fa-globe"> ES </i>
         </a>
     </div>
     <div class="lang">
         <a href="{{ route('admin.posts.create') }}" class="btn btn-danger btn-xs">
-            <i class="fa fa-comment"> EN </i>
+            <i class="fa fa-globe"> EN </i>
         </a>
     </div>
 </div>
