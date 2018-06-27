@@ -28,7 +28,7 @@ class PostsController extends Controller
             $lang_id = $request->lang_id;
         } else {
             $lang_id = 1;
-        } // hacer un if
+        }
         $categories = Category::all();
         $tags = Tag::all();
 
@@ -51,8 +51,9 @@ class PostsController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
+        $languages = Language::all();
 
-        return view('admin.posts.edit', compact(['categories', 'tags','post']));
+        return view('admin.posts.edit', compact(['categories', 'tags','post','languages']));
 
     }
 
@@ -65,6 +66,12 @@ class PostsController extends Controller
             'category' => 'required',
             'extract' => 'required',
             'tags' => 'required']);
+
+            if ($request->lang_id) {
+                $lang_id = $request->lang_id;
+            } else {
+                $lang_id = 1;
+            }
 
         $post->title = $request->title;
         $post->subtitle = $request->subtitle;
@@ -89,6 +96,8 @@ class PostsController extends Controller
 
     public function store(Request $request)
     {
+        $languages = Language::all();
+        //dd($request->all());
 
         //dd($request->all());
         // try {
@@ -105,23 +114,35 @@ class PostsController extends Controller
         // }
 
         //dd($request->all());
-        $lang_id = $request->lang_id;
-
+        //$lang_id = $request->lang_id;
+           // dd($request->all());
         //dd($lang_id);
-
-        $published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-        if (Category::find($request->category)) {
-            $category_id = $request->category;
-        } else {
-            $category_id = Category::create(['name' => $category])->id;
+        foreach ($languages as $id => $language) {
+            $categoryLang = 'category-' . $language->code;
+            if (Category::find($request->category)) {
+                $category_id = $request->category;
+            } else {
+                $category_id = Category::create([
+                'url' => str_slug($request->$categoryLang),
+                'name' => $request->$categoryLang->name])->id;
+            }
         }
 
+        $published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
         $post = Post::create(['published_at' => $published_at, 'category_id' => $category_id ]);
+        foreach ($languages as $id => $language) {
+            $titleLang = 'title-' . $language->code;
+            $subtitleLang = 'subtitle-' . $language->code;
+            $contentLang = 'title-' . $language->code;
+            $extractLang = 'title-' . $language->code;
 
 
-        $post->languages()->syncWithoutDetaching([
-            $lang_id => ['title' => $request->title, 'subtitle' => $request->subtitle, 'content' => $request->content, 'extract' => $request->extract],
-        ]);
+            $url = str_slug($request->$titleLang);
+            $post->languages()->syncWithoutDetaching([
+                $language->id => ['title' => $request->$titleLang, 'subtitle' => $request->$subtitleLang, 'content' => $request->$contentLang, 'extract' => $request->$extractLang, 'url' => $url],
+            ]);
+
+        }
 
         $tags = [];
 

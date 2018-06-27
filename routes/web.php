@@ -15,7 +15,7 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect']],
 function(){
     Route::get('/', 'PagesController@home')->name('blog.home');
-    Route::get(LaravelLocalization::transRoute('routes.posts') . '/{post}', 'PostsController@show')->name('posts.show');
+    Route::get(LaravelLocalization::transRoute('routes.posts') . '/{post_url}', 'PostsController@show')->name('posts.show');
     Route::get(LaravelLocalization::transRoute('routes.categories') . '/{category}', 'CategoriesController@show')->name('categories.show');
     Route::get(LaravelLocalization::transRoute('routes.tags') . '/{tag}', 'TagsController@show')->name('tags.show');
 });

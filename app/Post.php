@@ -74,10 +74,10 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function getRouteKeyName()
+    /*public function getRouteKeyName()
     {
         return 'url';
-    }
+    }*/
 
     public function tags()
     {
@@ -86,7 +86,7 @@ class Post extends Model
 
     public function languages()
     {
-        return $this->belongsToMany('App\Language','post_language')->withPivot('title', 'url', 'subtitle', 'extract', 'content', 'published_at', 'category_id');
+        return $this->belongsToMany('App\Language', 'post_language')->withPivot('title', 'url', 'subtitle', 'extract', 'content', 'published_at', 'category_id');
     }
 
     public function images()

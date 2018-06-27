@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                         <label>Título de la publicación</label>
-                        <input name="title" class="form-control" {{ old( 'title', $post->title) }}placeholder="Inserta aquí el título de la publicación"> {!! $errors->first('title', '
+                        <input name="title" class="form-control" value="{{ old( 'title', $post->title) }}" placeholder="Inserta aquí el título de la publicación"> {!! $errors->first('title', '
                         <span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group {{ $errors->has('subtitle') ? 'has-error' : '' }}">

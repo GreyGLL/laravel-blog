@@ -1,5 +1,12 @@
-@extends('admin.layout')
-@section('header')
+@extends('admin.layout') @section('header')
+<style>
+    .tab-pane {
+        display: none;
+    }
+    .tab-pane.active {
+        display: block;
+    }
+</style>
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -26,91 +33,100 @@
     <!-- /.row -->
 </div>
 <!-- /.container-fluid -->
-@stop
-@section('content')
-<div class="row"><!-- foreach recorriendo idiomas -->
-    @foreach ($languages as $language)
-        <div class="lang">
-            <a href="{{ route('admin.posts.create') }}?lang_id={{ $language->id }}" class="btn btn-danger btn-xs">
-                <i class="fa fa-globe"> {{ $language->code }} </i>
-            </a>
-        </div>
-    @endforeach
-</div>
+@stop @section('content')
 <div class="row">
-    <div class="card card-danger card-outline">
+    <!-- foreach recorriendo idiomas -->
+    <ul class="nav nav-pills ml-3">
+        @foreach ($languages as $id => $language)
+        <li @if ($loop->first) class="active" @endif>
+            <a style="background-color: #dc3545;" href="#lang-{{ $language->id }}" data-toggle="tab">{{ $language->code }}</a>
+        </li>
+        @endforeach
+    </ul>
+</div>
+
+<div class="tab-content ">
         <form method="POST" action="{{ route('admin.posts.store') }}">
-            {{ csrf_field() }}
-            <input type="hidden" name="lang_id" value="{{ $lang_id }}">
-            <div class="col-md-8">
-                <div class="card-body">
-                    <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                        <label>Título de la publicación</label>
-                        <input name="title" class="form-control" {{ old( 'title') }} placeholder="Inserta aquí el título de la publicación"> {!! $errors->first('title', '
-                        <span class="help-block">:message</span>') !!}
-                    </div>
-                    <div class="form-group {{ $errors->has('subtitle') ? 'has-error' : '' }}">
-                        <label>Subtítulo de la publicación</label>
-                        <textarea name="subtitle" class="form-control" placeholder="Inserta aquí el subtitulo de la publicación">{{ old('subtitle') }}</textarea>
-                        {!! $errors->first('subtitle', '
-                        <span class="help-block">:message</span>') !!}
-                    </div>
-                    <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
-                        <label>Contenido de la publicación</label>
-                        <textarea rows="10" name="content" class="form-control" id="editor" placeholder="Inserta aquí el contenido completo de la publicación">{{ old('content') }}</textarea>
-                        {!! $errors->first('content', '
-                        <span class="help-block">:message</span>') !!}
-                    </div>
-                </div>
-            </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-danger card-outline">
-            <div class="card-body">
-                <div class="form-group">
-                    <label>Fecha de publicación:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fa fa-calendar"></i>
-                            </span>
+    @foreach ($languages as $language)
+    <div @if ($loop->first) class=" tab-pane active" @else class="tab-pane" @endif  id="lang-{{ $language->id }}">
+
+        <div class="row">
+            <div class="card card-danger card-outline">
+
+                    {{ csrf_field() }}
+                    {{-- <input type="hidden" name="lang_id" value="{{ $lang_id }}"> --}}
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+                                <label>Título de la publicación</label>
+                                <input name="title-{{ $language->code }}" class="form-control" {{ old( 'title') }} placeholder="Inserta aquí el título de la publicación"> {!! $errors->first('title', '
+                                <span class="help-block">:message</span>') !!}
+                            </div>
+                            <div class="form-group {{ $errors->has('subtitle') ? 'has-error' : '' }}">
+                                <label>Subtítulo de la publicación</label>
+                                <textarea name="subtitle-{{ $language->code }}" class="form-control" placeholder="Inserta aquí el subtitulo de la publicación">{{ old('subtitle') }}</textarea>
+                                {!! $errors->first('subtitle', '
+                                <span class="help-block">:message</span>') !!}
+                            </div>
+                            <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
+                                <label>Contenido de la publicación</label>
+                                <textarea rows="10" name="content-{{ $language->code }}" class="form-control" id="editor" placeholder="Inserta aquí el contenido completo de la publicación">{{ old('content') }}</textarea>
+                                {!! $errors->first('content', '
+                                <span class="help-block">:message</span>') !!}
+                            </div>
                         </div>
-                        <input name="published_at" type="text" class="form-control float-right" value="{{ old('published_at') }}"
-                            id="reservation">
                     </div>
-                    <!-- /.input group -->
-                </div>
-                <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
-                    <label>Categorías</label>
-                    <select name="category" class="form-control select2">
-                        <option value="">Selecciona una categoria</option>
-                        @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ old( 'category', $category->id) == $category->id ? 'selected' : '' }} >{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                    {!! $errors->first('category', '
-                    <span class="help-block">:message</span>') !!}
-                </div>
-                <div class="form-group">
-                    <label>Etiquetas</label>
-                    <select name="tags[]" class="form-control select2" multiple="multiple" data-placeholder="Seleccione las etiquetas" style="width: 100%;">
-                        @foreach ($tags as $tag)
-                        <option {{ collect(old( 'tags', $tags->pluck('id')))->contains($tag->id) ? 'selected' : '' }} value="{{$tag->id}}">{{$tag->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group {{ $errors->has('extract') ? 'has-error' : '' }}">
-                    <label>Extracto de la publicación</label>
-                    <textarea name="extract" class="form-control" placeholder="Inserta aquí el extracto de la publicación">{{ old('extract') }}</textarea>
-                    {!! $errors->first('extract', '
-                    <span class="help-block">:message</span>') !!}
-                </div>
-                    <button type="submit" class="btn btn-danger btn-box">Guardar Publicación</button>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-danger card-outline">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Fecha de publicación:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                                <input name="published_at" type="text" class="form-control float-right reservation" value="{{ old('published_at') }}">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
+                            <label>Categorías</label>
+                            <select name="category-{{ $language->code }}" class="form-control select2">
+                                <option value="">Selecciona una categoria</option>
+                                @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ old( 'category', $category->id) == $category->id ? 'selected' : '' }} >{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            {!! $errors->first('category', '
+                            <span class="help-block">:message</span>') !!}
+                        </div>
+                        <div class="form-group">
+                            <label>Etiquetas</label>
+                            <select name="tags[]-{{ $language->code }}" class="form-control select2" multiple="multiple" data-placeholder="Seleccione las etiquetas" style="width: 100%;">
+                                @foreach ($tags as $tag)
+                                <option {{ collect(old( 'tags', $tags->pluck('id')))->contains($tag->id) ? 'selected' : '' }} value="{{$tag->id}}">{{$tag->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group {{ $errors->has('extract') ? 'has-error' : '' }}">
+                            <label>Extracto de la publicación</label>
+                            <textarea name="extract-{{ $language->code }}" class="form-control" placeholder="Inserta aquí el extracto de la publicación">{{ old('extract') }}</textarea>
+                            {!! $errors->first('extract', '
+                            <span class="help-block">:message</span>') !!}
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-box">Guardar Publicación</button>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
-    </form>
+    @endforeach
+</form>
+</div>
 </div>
 @stop @push('styles')
 <style>
@@ -118,12 +134,18 @@
         min-height: 400px;
     }
 </style>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- DropZone -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css">
 <!-- flat pickr -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="/adminlte/plugins/select2/select2.min.css"> @endpush @push('scripts')
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- DropZone -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
 <!-- CK Editor -->
@@ -133,7 +155,7 @@
 <!-- flat pickr-->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    $("#reservation").flatpickr({
+    $(".reservation").flatpickr({
         enableTime: false,
         dateFormat: "d-m-Y"
     });

@@ -7,8 +7,11 @@ use App\Post;
 
 class PostsController extends Controller
 {
-    public function show(Post $post)
+    public function show($postUrl)
     {
-        return view('posts.show')->with('post',$post);
+        $postLang = \DB::table("post_language")
+            ->where("url", $postUrl)->first();
+        $post = Post::find($postLang->post_id);
+        return view('posts.show')->with('post', $post);
     }
 }
