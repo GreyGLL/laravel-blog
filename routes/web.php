@@ -12,8 +12,7 @@
 */
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
-    'middleware' => ['localeSessionRedirect', 'localizationRedirect']],
-function(){
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect']], function() {
     Route::get('/', 'PagesController@home')->name('blog.home');
     Route::get(LaravelLocalization::transRoute('routes.posts') . '/{post_url}', 'PostsController@show')->name('posts.show');
     Route::get(LaravelLocalization::transRoute('routes.categories') . '/{category}', 'CategoriesController@show')->name('categories.show');
@@ -23,8 +22,7 @@ function(){
 Route::group([
     'prefix' => 'admin',
     'namespace' => 'Admin',
-    'middleware' => 'auth'],
-function(){
+    'middleware' => 'auth'], function () {
     Route::get('posts', 'PostsController@index')->name('admin.posts.index');
     Route::get('/', 'AdminController@index')->name('dashboard');
     Route::get('post/create', 'PostsController@create')->name('admin.posts.create');

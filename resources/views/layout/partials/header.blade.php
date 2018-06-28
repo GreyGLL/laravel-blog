@@ -19,7 +19,7 @@
         <ul class="c-selector">
             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                 <li class="c-selector__item">
-                    <a class="c-selector__link" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getURLFromRouteNameTranslated($localeCode, null, [], true) }}">
+                    <a class="c-selector__link" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
                         {{ $properties['native'] }}
                     </a>
                 </li>
