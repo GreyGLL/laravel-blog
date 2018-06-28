@@ -15,6 +15,15 @@ class Post extends Model
     protected $dates = ['published_at'];
     protected $fillable = ['published_at', 'category_id'];
 
+
+    public function getPost($code)
+    {
+        $post = $this->languages()->where('code', $code)->first();
+        return $post;
+
+
+    }
+
     public function getTitleAttribute()
     {
         if ($this->languages()->where('code', \App::getLocale())->first())

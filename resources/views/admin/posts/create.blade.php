@@ -70,7 +70,7 @@
                             </div>
                             <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                                 <label>Contenido de la publicación</label>
-                                <textarea rows="10" name="content-{{ $language->code }}" class="form-control" id="editor" placeholder="Inserta aquí el contenido completo de la publicación">{{ old('content') }}</textarea>
+                                <textarea rows="10" name="content-{{ $language->code }}" class="form-control" id="editor-{{ $language->code }}" placeholder="Inserta aquí el contenido completo de la publicación">{{ old('content') }}</textarea>
                                 {!! $errors->first('content', '
                                 <span class="help-block">:message</span>') !!}
                             </div>
@@ -166,13 +166,14 @@
     });
 
     // CK Editor
-
+    @foreach ($languages as $id => $language)
     ClassicEditor
-        .create(document.querySelector('#editor'))
+        .create(document.querySelector('#editor-{{ $language->code }}'))
         .then(function (editor) {})
         .catch(function (error) {
             console.error(error)
         })
+    @endforeach
 
     //Dropzone
 

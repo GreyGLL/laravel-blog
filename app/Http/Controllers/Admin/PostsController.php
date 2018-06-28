@@ -52,14 +52,13 @@ class PostsController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
         $languages = Language::all();
-
         return view('admin.posts.edit', compact(['categories', 'tags','post','languages']));
 
     }
 
     public function update(Post $post, Request $request)
     {
-
+        $languages = Language::all();
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required',
@@ -67,20 +66,46 @@ class PostsController extends Controller
             'extract' => 'required',
             'tags' => 'required']);
 
-            if ($request->lang_id) {
-                $lang_id = $request->lang_id;
-            } else {
-                $lang_id = 1;
-            }
+            // if ($request->lang_id) {
+            //     $lang_id = $request->lang_id;
+            // } else {
+            //     $lang_id = 1;
+            // }
 
-        $post->title = $request->title;
-        $post->subtitle = $request->subtitle;
-        $post->content = $request->content;
-        $post->extract = $request->extract;
+        // $post->title = $request->title;
+        // $post->subtitle = $request->subtitle;
+        // $post->content = $request->content;
+        // $post->extract = $request->extract;
+
+        foreach ($languages as $id => $language) {
+            $categoryLang = 'category-' . $language->code;
+            if (Category::find($request->category)) {
+                $category_id = $request->category;
+            } else {
+                $category_id = Category::create([
+                'url' => str_slug($request->$categoryLang),
+                'name' => $request->$categoryLang])->id;
+            }
+        }
+
         $post->published_at = $request->has('published_at') ? Carbon::parse($request->published_at) : null;
-        $post->category_id = Category::find( $category = $request->category) ? $category
-        : Category::create(['name' => $category])->id;
-        $post->save();
+        // $post->category_id = Category::find( $category = $request->category) ? $category
+        // : Category::create(['name' => $category])->id;
+        $post = Post::update(['published_at' => $published_at, 'category_id' => $category_id ]);
+        // $post->save();
+        foreach ($languages as $id => $language) {
+            $titleLang = 'title-' . $language->code;
+            $subtitleLang = 'subtitle-' . $language->code;
+            $contentLang = 'title-' . $language->code;
+            $extractLang = 'title-' . $language->code;
+
+
+            $url = str_slug($request->$titleLang);
+            $post->languages()->syncWithoutDetaching([
+                $language->id => ['title' => $request->$titleLang, 'subtitle' => $request->$subtitleLang, 'content' => $request->$contentLang, 'extract' => $request->$extractLang, 'url' => $url],
+            ]);
+
+        }
 
         $tags = [];
 
@@ -124,7 +149,7 @@ class PostsController extends Controller
             } else {
                 $category_id = Category::create([
                 'url' => str_slug($request->$categoryLang),
-                'name' => $request->$categoryLang->name])->id;
+                'name' => $request->$categoryLang])->id;
             }
         }
 
