@@ -35,3 +35,19 @@
     </div>
 
 @endsection
+
+<script>
+$(document).ready(function(){
+    let url = [];
+    @foreach($url as $translatedUrl)
+        url.push({{ $translatedUrl }});
+    @endforeach
+    let html = "";
+    url.each(function(index, item){
+        html += `<li class="c-selector__item">
+            <a class="c-selector__link" rel="alternate" href="${item}"></a>
+        </li>`;
+    });
+    $("ul.c-selector").html(html);
+});
+</script>
