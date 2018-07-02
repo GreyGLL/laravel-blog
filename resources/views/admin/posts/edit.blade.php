@@ -77,19 +77,6 @@
                                 {!! $errors->first('content', '
                                 <span class="help-block">:message</span>') !!}
                             </div>
-                            <div class="row">
-                                @foreach ($post->images as $image)
-                                <form method="POST" action="{{ route('admin.images.destroy', $image) }}">
-                                    {{ method_field('DELETE') }} {{ csrf_field() }}
-                                    <div class="col-md-2">
-                                        <a href="{{ route('admin.images.destroy', $image) }}" class="btn btn-danger btn-xs">
-                                            <i class="fa fa-remove"></i>
-                                        </a>
-                                        <img class="img-responsive" src="{{ url($image->url) }}">
-                                    </div>
-                                </form>
-                                @endforeach
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,11 +122,6 @@
                                 <span class="help-block">:message</span>') !!}
                             </div>
                             <div class="form-group">
-                                <div class="dropzone">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <button type="submit" class="btn btn-danger btn-box">Guardar Publicación</button>
                             </div>
                         </div>
@@ -149,6 +131,24 @@
             </div>
         </div>
             @endforeach
+            <div class="form-group">
+                <div class="dropzone">
+
+                </div>
+                <div class="row">
+                    @foreach ($post->images as $image)
+                    <form method="POST" action="{{ route('admin.images.destroy', $image) }}">
+                        {{ method_field('DELETE') }} {{ csrf_field() }}
+                        <div class="col-md-2">
+                            <a href="{{ route('admin.images.destroy', $image) }}" class="btn btn-danger btn-xs">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                            <img class="img-responsive" src="{{ url($image->url) }}">
+                        </div>
+                    </form>
+                    @endforeach
+                </div>
+            </div>
     </form>
     </div>
 </div>
@@ -199,6 +199,8 @@
             })
     @endforeach
 
+    Dropzone.autoDiscover = false;
+
     var myDropZone = new Dropzone('.dropzone', {
         url: '/admin/posts/{{ $postTranslated->url }}/images',
         acceptedFiles: 'image/*',
@@ -211,11 +213,9 @@
         dictDefaultMessage: 'Arrastra las fotos aquí para subirlas'
     });
 
-    myDropzone.on('error', function (file, res) {
+    myDropZone.on('error', function (file, res) {
         var msg = res.image[0];
         $('.dz-error-message:last > span').text(msg);
     });
-
-    Dropzone.autoDiscover = false;
 </script>
 @endpush

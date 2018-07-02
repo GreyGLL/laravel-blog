@@ -11,14 +11,25 @@ class PostsController extends Controller
     public function show($postUrl)
     {
         $languages = Language::all();
-        $url = [];
-        foreach ($languages as $language) {
-            $url[$language->code] = $language->code."/".__("routes.posts")."/".$postUrl;
-        }
 
         $postLang = \DB::table("post_language")
-            ->where("url", $postUrl)->first();
+        ->where("url", $postUrl)->first();
+
         $post = Post::find($postLang->post_id);
-        return view('posts.show')->with('post', $post)->with('url', $url);
+
+        $urls = $post->languages()->get();
+
+         $languageUrls = [];
+         foreach ($languages as $language) {
+             $postRoute = "";
+             if ($language->code == "es") {
+                $postRoute = "articulos";
+             } else {
+                $postRoute = "posts";
+             }
+             $languageUrls[$language->code] = $language->code."/".$postRoute."/".$urls->where('code',$language->code)->first()->getOriginal('pivot_url');
+         }
+
+        return view('posts.show', compact(['post', 'languageUrls']));
     }
 }

@@ -36,7 +36,7 @@
 
 @endsection
 
-<script>
+{{-- <script>
 $(document).ready(function(){
     let url = [];
     @foreach($url as $translatedUrl)
@@ -50,4 +50,4 @@ $(document).ready(function(){
     });
     $("ul.c-selector").html(html);
 });
-</script>
+</script> --}}

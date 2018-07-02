@@ -16,6 +16,20 @@
                 </li>
             </ul>
         </nav>
+        @if (Route::currentRouteName() == 'posts.show')
+
+        <ul class="c-selector">
+            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                <li class="c-selector__item">
+                    <a class="c-selector__link" rel="alternate" hreflang="{{ $localeCode }}" href="/{{ $languageUrls[$localeCode] }}">
+                        {{ $properties['native'] }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+
+        @else
+
         <ul class="c-selector">
             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                 <li class="c-selector__item">
@@ -25,6 +39,8 @@
                 </li>
             @endforeach
         </ul>
+
+        @endif
         <button class="c-header__toggle-menu js-nav-toggle">
             <span class="fas fa-bars"></span>
         </button>
